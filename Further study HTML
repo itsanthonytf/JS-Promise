@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Pokemon Generator</title>
+</head>
+<body>
+    <h1>Random Pokemon Generator</h1>
+    <button onclick="generatePokemon()">Generate Pokemon</button>
+    <div id="pokemonData"></div>
+
+    <script>
+        function generatePokemon() {
+            const pokemonList = [
+                { name: 'Pikachu', image: 'pikachu.jpg', description: 'An electric-type Pokémon known for its speed and agility.' },
+                { name: 'Charmander', image: 'charmander.jpg', description: 'A fire-type Pokémon with a flame at the tip of its tail.' },
+                { name: 'Bulbasaur', image: 'bulbasaur.jpg', description: 'A grass/poison-type Pokémon with a plant bulb on its back.' }
+            ];
+
+            const randomPokemon = pokemonList[Math.floor(Math.random() * pokemonList.length)];
+
+            const pokemonData = document.getElementById('pokemonData');
+            pokemonData.innerHTML = `
+                <h2>${randomPokemon.name}</h2>
+                <img src="${randomPokemon.image}" alt="${randomPokemon.name}">
+                <p>${randomPokemon.description}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
