@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Cards from Deck</title>
+</head>
+<body>
+    <h1>Draw Cards from Deck</h1>
+    <button id="drawCardBtn">Draw a Card</button>
+    <div id="cardDisplay"></div>
+
+    <script>
+        const drawCardBtn = document.getElementById('drawCardBtn');
+        const cardDisplay = document.getElementById('cardDisplay');
+        let deckId = '';
+
+        fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+            .then(response => response.json())
+            .then(data => {
+                deckId = data.deck_id;
+            });
+
+        drawCardBtn.addEventListener('click', () => {
+            fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+                .then(response => response.json())
+                .then(data => {
+                    const card = data.cards[0];
+                    cardDisplay.innerHTML = `<img src="${card.image}" alt="${card.value} of ${card.suit}">`;
+                });
+        });
+    </script>
+</body>
+</html>
