@@ -1,0 +1,17 @@
+fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=1')
+  .then(response => response.json())
+  .then(data => console.log(`Card drawn: ${data.cards[0].value} of ${data.cards[0].suit}`));
+
+fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+  .then(response => response.json())
+  .then(data => {
+    const deckId = data.deck_id;
+    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+      .then(response => response.json())
+      .then(data => console.log(data.cards[0]));
+
+    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+      .then(response => response.json())
+      .then(data => console.log(data.cards[0]));
+  });
+
