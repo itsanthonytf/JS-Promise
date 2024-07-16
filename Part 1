@@ -1,0 +1,37 @@
+const favoriteNumber = 7;
+const apiUrl = `http://numbersapi.com/${favoriteNumber}?json`;
+
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => console.log(data.text))
+  .catch(error => console.log('Error fetching data:', error));
+
+const numbers = [1, 2, 3, 4, 5]; // Example numbers to retrieve facts for
+
+Promise.all(numbers.map(number => {
+    return fetch(`http://numbersapi.com/${number}`)
+        .then(response => response.text());
+})).then(facts => {
+    facts.forEach((fact, index) => {
+        const factElement = document.createElement('p');
+        factElement.textContent = `Number ${numbers[index]}: ${fact}`;
+        document.body.appendChild(factElement);
+    });
+});
+
+const favoriteNumber = 7;
+const url = `http://numbersapi.com/${favoriteNumber}/?json`;
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    const facts = [data.text, data.text, data.text, data.text]; // Repeats the same fact for demonstration
+    const factsList = document.getElementById('facts-list');
+
+    facts.forEach(fact => {
+      const li = document.createElement('li');
+      li.textContent = fact;
+      factsList.appendChild(li);
+    });
+  })
+  .catch(error => console.log(error));
