@@ -1,0 +1,56 @@
+fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
+  .then(response => response.json())
+  .then(data => {
+    data.results.forEach(pokemon => {
+      console.log(`Name: ${pokemon.name}, URL: ${pokemon.url}`);
+    });
+  });
+
+const pokemonNames = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigglypuff', 'eevee', 'snorlax', 'magikarp', 'dragonite'];
+const pokemonUrls = pokemonNames.map(name => `https://pokeapi.co/api/v2/pokemon/${name}`);
+
+function getRandomPokemonUrls(num) {
+    const randomPokemonUrls = [];
+    for (let i = 0; i < num; i++) {
+        const randomIndex = Math.floor(Math.random() * pokemonUrls.length);
+        randomPokemonUrls.push(pokemonUrls[randomIndex]);
+    }
+    return randomPokemonUrls;
+}
+
+function fetchData(url) {
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => data);
+}
+
+const randomPokemonUrls = getRandomPokemonUrls(3);
+const pokemonDataPromises = randomPokemonUrls.map(url => fetchData(url));
+
+Promise.all(pokemonDataPromises)
+    .then(pokemonData => {
+        pokemonData.forEach(data => console.log(data));
+    })
+    .catch(error => console.error('Error fetching Pokemon data:', error));
+
+const fetch = require('node-fetch');
+
+async function getPokemonSpeciesDescription() {
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon/1');
+    const data = await response.json();
+    const pokemonName = data.name;
+    
+    const speciesUrl = data.species.url;
+    const speciesResponse = await fetch(speciesUrl);
+    const speciesData = await speciesResponse.json();
+    
+    const englishEntries = speciesData.flavor_text_entries.filter(entry => entry.language.name === 'en');
+    
+    if (englishEntries.length > 0) {
+        const description = englishEntries[0].flavor_text;
+        console.log(`${pokemonName}: ${description}`);
+    }
+}
+
+getPokemonSpeciesDescription();
+
